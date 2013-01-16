@@ -40,3 +40,13 @@ Currency Converter accepts simple and complex queries.
   * `currency to GBP 3€` -- Convert 3 EUR to GBP
 
 ...and many other combinations!
+
+
+Defaults
+----------------
+
+You change change the default currency editing the "currency Script Filter" object from Alfred Preferences.
+Here the default script invocation `php -f currencyConverter.php -- "{query}" "€" "$"`
+Where:
+ * € -- default from currency symbol/internaltional code
+ * $ -- default to currency symbol/internaltional code
