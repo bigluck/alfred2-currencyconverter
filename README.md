@@ -16,7 +16,8 @@ Instructions
 
 currency `<query>`
 
-Currency Converter accepts simple and complex queries; all output results are fetched from Google Finance and might not be in real-time.
+Currency Converter accepts simple and complex queries.
+*Important: all output results are fetched from Google Finance and might not be in real-time!*
 
 ### Basic ratio xchange
  * `currency €` -- Current EUR/USD exchange
@@ -27,7 +28,7 @@ Currency Converter accepts simple and complex queries; all output results are fe
  * `currency 12€ £` -- Convert 12 EUR to GBP
  * `currency 12 € £` -- Convert 12 EUR to GBP
 
- ### Symbols and International Codes support
+### Symbols and International Codes support
  * `currency 12 EUR £` -- Convert 12 EUR to GBP
 
 ###  Natural language support
@@ -36,4 +37,4 @@ Currency Converter accepts simple and complex queries; all output results are fe
   * `currency to GBP from 3€` -- Convert 3 EUR to GBP
   * `currency to GBP 3€` -- Convert 3 EUR to GBP
 
-and many other combinations!
+...and many other combinations!
