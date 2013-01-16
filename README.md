@@ -3,6 +3,8 @@ Currency Converter for Alfred 2
 
 A simple Alfred 2 Currency Converter workflow's.
 
+![Alfred 2 Currency Converter](http://i50.tinypic.com/125p63a.jpg)
+
 
 Installation
 ----------------
