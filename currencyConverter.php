@@ -20,6 +20,7 @@ function convertCurrencySymbol($symbol)
 	return mb_strtoupper($knownSymbols[mb_strtolower(trim($symbol), 'UTF-8')] ?: $symbol, 'UTF-8');
 }
 
+
 // Input data
 $inQuery = $argv[1] ?: '1';
 $inDefaultFrom = convertCurrencySymbol($argv[2]) ?: 'EUR';
@@ -51,7 +52,8 @@ foreach ($reTests AS $re)
 		if (strlen($match['from']) != 3 || strlen($match['to']) != 3)
 			continue;
 
-		$match['a'] = $match['a'] ?: '1';
+		$match['a'] = preg_replace('/(\d+)\.(?!\d+$)/', '$1', str_replace(',', '.', $match['a'] ?: '1'))*1;
+		$match['a'] = $match['a'] ?: 1;
 
 		// Loading remote data from Google Finance
 		$ch = curl_init();
