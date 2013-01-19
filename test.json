@@ -1,0 +1,40 @@
+{
+	"defaultFrom": "EUR",
+	"defaultTo":	"USD",
+	"testList": [
+		{ "query": "€" , "amount": 1, "from": [ "EUR" ], "to": [ "USD" ], "valid": true },
+		{ "query": "EU" , "amount": 1, "from": [ "EUR" ], "to": [ "USD" ], "valid": true },
+		{ "query": "EUR" , "amount": 1, "from": [ "EUR" ], "to": [ "USD" ], "valid": true },
+		{ "query": "$" , "amount": 1, "from": [ "USD" ], "to": [ "EUR" ], "valid": true },
+		{ "query": "2 €" , "amount": 2, "from": [ "EUR" ], "to": [ "USD" ], "valid": true },
+		{ "query": "€ 2" , "amount": 2, "from": [ "EUR" ], "to": [ "USD" ], "valid": true },
+		{ "query": "2 E" , "amount": 2, "from": [ "EGP","EEK","EUR" ], "to": [ "EUR" ], "valid": true },
+		{ "query": "2 EU" , "amount": 2, "from": [ "EUR" ], "to": [ "USD" ], "valid": true },
+		{ "query": "2E" , "amount": 2, "from": [ "EGP","EEK","EUR" ], "to": [ "EUR" ], "valid": true },
+		{ "query": "2EU" , "amount": 2, "from": [ "EUR" ], "to": [ "USD" ], "valid": true },
+		{ "query": "E 2" , "amount": 2, "from": [ "EGP","EEK","EUR" ], "to": [ "EUR" ], "valid": true },
+		{ "query": "EU 2" , "amount": 2, "from": [ "EUR" ], "to": [ "USD" ], "valid": true },
+		{ "query": "E2" , "amount": 2, "from": [ "EGP","EEK","EUR" ], "to": [ "EUR" ], "valid": true },
+		{ "query": "EU2" , "amount": 2, "from": [ "EUR" ], "to": [ "USD" ], "valid": true },
+
+		{ "query": "€ $" , "amount": 1, "from": [ "EUR" ], "to": [ "USD" ], "valid": true },
+		{ "query": "$ £" , "amount": 1, "from": [ "USD" ], "to": [ "GBP" ], "valid": true },
+		{ "query": "2 € £" , "amount": 2, "from": [ "EUR" ], "to": [ "GBP" ], "valid": true },
+		{ "query": "€ 2 £" , "amount": 2, "from": [ "EUR" ], "to": [ "GBP" ], "valid": true },
+		{ "query": "$ to £" , "amount": 1, "from": [ "USD" ], "to": [ "GBP" ], "valid": true },
+		{ "query": "2 € to £" , "amount": 2, "from": [ "EUR" ], "to": [ "GBP" ], "valid": true },
+		{ "query": "€ 2 to £" , "amount": 2, "from": [ "EUR" ], "to": [ "GBP" ], "valid": true },
+		{ "query": "from 2" , "amount": 2, "from": [ "EUR" ], "to": [ "USD" ], "valid": true },
+		{ "query": "from 2 £" , "amount": 2, "from": [ "GBP" ], "to": [ "EUR" ], "valid": true },
+		{ "query": "from 2 £ €" , "amount": 2, "from": [ "GBP" ], "to": [ "EUR" ], "valid": true },
+		{ "query": "from £ 2" , "amount": 2, "from": [ "GBP" ], "to": [ "EUR" ], "valid": true },
+		{ "query": "from £ 2 €" , "amount": 2, "from": [ "GBP" ], "to": [ "EUR" ], "valid": true },
+		{ "query": "from 2 € to £" , "amount": 2, "from": [ "EUR" ], "to": [ "GBP" ], "valid": true },
+		{ "query": "from € 2 to £" , "amount": 2, "from": [ "EUR" ], "to": [ "GBP" ], "valid": true },
+
+		{ "query": "to € from 2 £" , "amount": 2, "from": [ "GBP" ], "to": [ "EUR" ], "valid": true },
+		{ "query": "to € from £ 2" , "amount": 2, "from": [ "GBP" ], "to": [ "EUR" ], "valid": true },
+		{ "query": "to £ from E 2" , "amount": 2, "from": [ "EGP","EEK","EUR" ], "to": [ "GBP" ], "valid": true },
+		{ "query": "BTC" , "amount": 1, "from": [ "BTC" ], "to": [ "EUR" ], "valid": true }
+	]
+}
