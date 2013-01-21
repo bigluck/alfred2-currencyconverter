@@ -22,6 +22,8 @@ class e4QueryParser
 			self::$reRules = array(
 				self::$reNumber.self::$reFrom.self::$reTo => 'from %n %f to %t',
 				self::$reFrom.self::$reNumber.self::$reTo => 'from %f %n to %t',
+				self::$reNumber.self::$reTo.self::$reFrom => 'to %n %f from %t',
+				self::$reTo.self::$reNumber.self::$reFrom => 'to %t %n from %f',
 				self::$reTo.self::$reNumber.self::$reFrom => 'to %t from %n %f',
 				self::$reTo.self::$reFrom.self::$reNumber => 'to %t from %f %n');
 
@@ -101,7 +103,7 @@ class e4QueryParser
 				$out[] = strcasecmp($this->parsed['to'], $suggest) < 0 ? $suggest : $this->parsed['to'];
 			}
 		}
-		return implode(' ', $out);
+		return implode(' ', $out).' ';
 	}
 	public function parse()
 	{

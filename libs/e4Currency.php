@@ -162,13 +162,13 @@ class e4Currency
 		$currency = mb_strtoupper(trim($currency), 'UTF-8');
 		return self::$validCurrency[$currency] ? $currency : false;
 	}
-	static function autoCompose($currency)
+	static function autoCompose($currency, $all=false)
 	{
 		$out = array();
 		$totChars = strlen($currency);
-		if ($totChars > 0 && $totChars < 3)
+		if (($all && $totChars >= 0 && $totChars <= 3) || (!$all && $totChars > 0 && $totChars < 3))
 			foreach (self::$validCurrency AS $key => $name)
-				if (substr_compare($key, $currency, 0, $totChars) === 0)
+				if (!$totChars || substr_compare($key, $currency, 0, $totChars) === 0)
 					$out[$key] = true;
 
 		return $out;

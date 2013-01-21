@@ -1,12 +1,15 @@
 <?php
 
 
-include "./libs/e4Currency.php";
-include "./libs/e4QueryParser.php";
-include "./libs/e4QuerySend.php";
+// Library autoloader
+define('ROOT', dirname($_SERVER['SCRIPT_NAME']).'/');
+function __autoload($className)
+{
+	include ROOT.'libs/'.$className.'.php';
+}
 
 
-$config = json_decode(file_get_contents('./test.json'), true);
+$config = json_decode(file_get_contents(ROOT.'appTest.json'), true);
 $testData = array(
 	'from' => 'currency',
 	'to' => 'currency',
@@ -25,9 +28,9 @@ foreach ($config['testList'] AS $i => $test)
 	if ($objQuery->isValid() != $test['valid'])
 	{
 		// Unexpected different result
-		$errors .= '{ e4QueryParser: '.($objQuery->isValid() ? 'parsed' : 'invalid').'} ';
+		$errors .= '{ e4QueryParser: '.($objQuery->isValid() ? 'parsed' : 'invalid').' } ';
 		$errors .= '!= ';
-		$errors .= '{ expected: '.($test['valid'] ? 'parsed' : 'invalid').'} ';
+		$errors .= '{ expected: '.($test['valid'] ? 'parsed' : 'invalid').' } ';
 	} elseif ($objQuery->isValid())
 	{
 		// Ok, both are valid; check every property

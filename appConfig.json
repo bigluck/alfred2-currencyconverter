@@ -1,0 +1,38 @@
+{
+	"app": {
+		"name": "Currency Converter",
+		"version": "0.8",
+		"namespace": "currencyconverter"
+	},
+	"defaults": {
+		"from": "EUR",
+		"to": "USD"
+	},
+	"commands": [
+		{
+			"id": "convert",
+			"cmd": "Convert",
+			"title": "Currency",
+			"subtitle": "Try ‘12 €‘, ‘12 € to $‘ or ‘€‘ and convert your currency",
+			"default": true
+		},
+		{
+			"id": "set from",
+			"cmd": "Set",
+			"title": "Currency: set default from",
+			"subtitle": "Change default currency"
+		},
+		{
+			"id": "set to",
+			"cmd": "Set",
+			"title": "Currency: set default to",
+			"subtitle": "Change default currency"
+		},
+		{
+			"id": "help",
+			"cmd": "Help",
+			"title": "Currency: on-line help",
+			"subtitle": "Informations about Currency Converter"
+		}
+	]
+}
