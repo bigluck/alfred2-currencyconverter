@@ -43,12 +43,15 @@ Currency Converter accepts simple and complex queries.
 ...and many other combinations!
 
 - currency-set-from `<query>`
+
 Set a new default currency input
 
 - currency-set-to `<query>`
+
 Set a new default currency out
 
 - currency-help
+
 Keep updated and read the latest news
 
 
