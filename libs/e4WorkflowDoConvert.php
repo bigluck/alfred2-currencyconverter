@@ -10,7 +10,7 @@ class e4WorkflowDoConvert extends e4WorkflowCommands
 		$inDefaultTo = $this->app->getDefault('to');
 		$out = array();
 
-		$objQuery = new e4QueryParser($inQuery, $inDefaultFrom, $inDefaultTo);
+		$objQuery = new e4QueryParser($this->app, $inQuery, $inDefaultFrom, $inDefaultTo);
 		if ($objQuery->parse())
 		{
 			$tmpFrom = $objQuery->getFrom();
@@ -47,7 +47,7 @@ class e4WorkflowDoConvert extends e4WorkflowCommands
 				}
 			} else
 			{
-				$tmpResponse = new e4QuerySend($tmpAmount, $tmpFrom[0], $tmpTo[0]);
+				$tmpResponse = new e4QuerySend($this->app, $tmpAmount, $tmpFrom[0], $tmpTo[0]);
 				if ($tmpResponse->sendRequest())
 				{
 					$out[] = array(

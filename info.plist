@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>bundleid</key>
-	<string>exit4web.currencyconverter</string>
+	<string>net.exit4web.currencyconverter</string>
 	<key>connections</key>
 	<dict>
 		<key>089E4F01-0962-4C51-A276-CC83795C7F7F</key>
@@ -114,14 +114,14 @@
 				<key>escaping</key>
 				<integer>4</integer>
 				<key>script</key>
-				<string>php -f e4WorkflowApp.php -- "set from {query}" "save"</string>
+				<string>php -f e4WorkflowApp.php -- "set to {query}" "save"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
-			<string>567440A9-0F78-4C99-9E28-C6101B0723C9</string>
+			<string>6EA7041C-9AFC-4C3B-A20D-3E146FE2B8E5</string>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -189,27 +189,17 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>argumenttype</key>
-				<integer>1</integer>
-				<key>escaping</key>
-				<integer>4</integer>
-				<key>keyword</key>
-				<string>currency</string>
-				<key>script</key>
-				<string>php -f ./e4WorkflowApp.php -- "{query}" "default"</string>
-				<key>subtext</key>
-				<string>Try ‘12 €‘, ‘12 € to $‘ or ‘€‘ and convert your currency</string>
-				<key>title</key>
-				<string>Currency</string>
-				<key>type</key>
-				<integer>0</integer>
-				<key>withspace</key>
+				<key>plusspaces</key>
+				<false/>
+				<key>url</key>
+				<string>{query}</string>
+				<key>utf8</key>
 				<true/>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
+			<string>alfred.workflow.action.openurl</string>
 			<key>uid</key>
-			<string>089E4F01-0962-4C51-A276-CC83795C7F7F</string>
+			<string>569188F4-0665-4FB2-8890-CF67D35D99C5</string>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -240,29 +230,39 @@
 				<key>escaping</key>
 				<integer>4</integer>
 				<key>script</key>
-				<string>php -f e4WorkflowApp.php -- "set to {query}" "save"</string>
+				<string>php -f e4WorkflowApp.php -- "set from {query}" "save"</string>
 				<key>type</key>
 				<integer>0</integer>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
-			<string>6EA7041C-9AFC-4C3B-A20D-3E146FE2B8E5</string>
+			<string>567440A9-0F78-4C99-9E28-C6101B0723C9</string>
 		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>plusspaces</key>
-				<false/>
-				<key>url</key>
-				<string>{query}</string>
-				<key>utf8</key>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>4</integer>
+				<key>keyword</key>
+				<string>currency</string>
+				<key>script</key>
+				<string>php -f ./e4WorkflowApp.php -- "{query}" "default"</string>
+				<key>subtext</key>
+				<string>Try ‘12 €‘, ‘12 € to $‘ or ‘€‘ and convert your currency</string>
+				<key>title</key>
+				<string>Currency</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
 				<true/>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.action.openurl</string>
+			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
-			<string>569188F4-0665-4FB2-8890-CF67D35D99C5</string>
+			<string>089E4F01-0962-4C51-A276-CC83795C7F7F</string>
 		</dict>
 	</array>
 	<key>uidata</key>

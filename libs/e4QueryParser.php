@@ -7,6 +7,7 @@ class e4QueryParser
 	static $reTo = '\s*(to\s*)?(?<to>[^\d|\s]{1,3})?';
 	static $reRules = null;
 
+	protected $app = null;
 	protected $defaultFrom = null;
 	protected $defaultTo = null;
 	protected $query = '';
@@ -16,7 +17,7 @@ class e4QueryParser
 	protected $to = null;
 	protected $valid = false;
 
-	public function __construct($query=null, $defaultFrom='$', $defaultTo='€')
+	public function __construct($app, $query=null, $defaultFrom='$', $defaultTo='€')
 	{
 		if (!self::$reRules)
 			self::$reRules = array(
@@ -26,6 +27,8 @@ class e4QueryParser
 				self::$reTo.self::$reNumber.self::$reFrom => 'to %t %n from %f',
 				self::$reTo.self::$reNumber.self::$reFrom => 'to %t from %n %f',
 				self::$reTo.self::$reFrom.self::$reNumber => 'to %t from %f %n');
+		
+		$this->app = $app;
 
 		// Set default values
 		$this->defaultFrom = new e4Currency($defaultFrom);

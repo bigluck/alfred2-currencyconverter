@@ -22,10 +22,16 @@ class e4WorkflowApp
 	public $appCommands = array();
 
 	public $name = 'global';
+	public $id = 'global';
 	public $version = 1.0;
-	public $namespace = 'global';
+	public $ttl = 3600;
+
 	public $defaults = array();
-	public $configPath = '~/Library/Preferences/net.exit4web.Alfred2Workflows.plist';
+	protected $defaultsHash;
+
+	public $cachePath = false;
+	protected $configLoaded = false;
+	public $configPath = false;
 
 	public function __construct($root=false, $path='appConfig.json')
 	{
@@ -37,9 +43,9 @@ class e4WorkflowApp
 			throw new Exception('Invalid config file syntax', 1);
 
 		// Loading app informations
-		$this->setName($e4Config['app']['name'], $e4Config['app']['pListFileName']);
+		$this->setName($e4Config['app']['name'], $e4Config['app']['id']);
 		$this->setVersion($e4Config['app']['version']);
-		$this->setNamespace($e4Config['app']['namespace']);
+		$this->setCacheTTL($e4Config['app']['cacheTTL']);
 
 		// Loading default configuration
 		if (count($e4Config['defaults']) > 0)
@@ -50,20 +56,29 @@ class e4WorkflowApp
 		if (count($e4Config['commands']) > 0)
 			foreach ($e4Config['commands'] AS $info)
 				$this->addCommand($info['id'], $info);
+
+		// Callback functions on application exit
+		register_shutdown_function(array($this, 'exportConfig'));
+		register_shutdown_function(array($this, 'clearCacheFiles'));
 	}
-	public function setName($name, $pListName=false)
+	public function setName($name, $id)
 	{
 		$this->name = trim($name);
-		if (trim($pListName) != '')
-	 		$this->configPath = '~/Library/Preferences/'.trim($pListName).'.plist';
+
+		$this->id = $id ?: strtolower(str_replace(' ', '', $this->name));
+	 	$this->cachePath = $_SERVER['HOME'].'/Library/Caches/com.runningwithcrayons.Alfred-2/Workflow Data/'.$this->id.'/';
+	 	$this->configPath = $_SERVER['HOME'].'/Library/Application Support/Alfred 2/Workflow Data/'.$this->id.'/';
+
+	 	@mkdir($this->cachePath, 0777, true);
+	 	@mkdir($this->configPath, 0777, true);
 	}
 	public function setVersion($version=1)
 	{
 		$this->version = trim($version);
 	}
-	public function setNamespace($namespace=false)
+	public function setCacheTTL($ttl=3600)
 	{
-		$this->namespace = ($namespace ?: strtolower(str_replace(' ', '', $this->name))).'.';
+		$this->ttl = $ttl ?: 3600;
 	}
 	public function addCommand($key, $configs)
 	{
@@ -127,17 +142,65 @@ class e4WorkflowApp
 		if (!$this->getDefault($key))
 			$this->setDefault($key, $value);
 	}
-	public function setDefault($key, $value)
-	{
-		if (shell_exec("defaults write {$this->configPath} \"{$this->namespace}{$key}\" \"{$value}\""))
-			$this->defaults[$key] = trim($value);
-		return $this->defaults[$key];
-	}
 	public function getDefault($key)
 	{
-		if ($out = shell_exec("defaults read {$this->configPath} \"{$this->namespace}{$key}\""))
-			$this->defaults[$key] = trim($out);
+		$this->importConfig();
 		return $this->defaults[$key];
+	}
+	public function setDefault($key, $value)
+	{
+		$this->importConfig();
+		$this->defaults[$key] = $value;
+	}
+	public function importConfig()
+	{
+		if ($this->cacheLoaded)
+			return false;
+		$this->cacheLoaded = true;
+		$content = @file_get_contents($this->configPath.'config.json');
+		$this->defaults = @json_decode($content, true) ?: array();
+		$this->defaultsHash = md5($content) ?: '';
+		return true;
+	}
+	public function exportConfig()
+	{
+		$content = json_encode($this->defaults);
+		if (md5($content) == $this->defaultsHash)
+			return false;
+		file_put_contents($this->configPath.'config.json', $content);
+		return true;
+	}
+
+	public function sendHTTPRequest($url, $post=null, $ttl=300)
+	{
+		$cacheFileName = $this->cachePath.'/'.md5($url).'.cache';
+
+		if (file_exists($cacheFileName) && time()-filemtime($cacheFileName) < $ttl)
+			return gzuncompress(file_get_contents($cacheFileName));
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_HEADER, 0);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_ENCODING, 'UTF-8');
+		$response = curl_exec($ch);
+
+		if (curl_getinfo($ch, CURLINFO_HTTP_CODE) != 200 || !$response)
+			$response = false;
+		else
+			file_put_contents($cacheFileName, gzcompress($response));
+
+		curl_close($ch);
+		return $response;
+	}
+	
+	public function clearCacheFiles()
+	{
+		$dp = opendir($this->cachePath);
+		while ($name = readdir($dp))
+			if (is_file($this->cachePath.$name) && time()-filemtime($this->cachePath.$name) > $this->ttl)
+				unlink($this->cachePath.$name);
+		closedir($dp);
 	}
 }
 

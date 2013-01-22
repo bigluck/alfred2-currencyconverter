@@ -2,6 +2,7 @@
 
 class e4QuerySend
 {
+	protected $app = null;
 	protected $amount = 1;
 	protected $from = null;
 	protected $to = null;
@@ -12,8 +13,9 @@ class e4QuerySend
 	protected $responseToCurrency = null;
 	protected $valid = false;
 
-	public function __construct($amount, $from, $to)
+	public function __construct($app, $amount, $from, $to)
 	{
+		$this->app = $app;
 		$this->amount = $this->responseFromAmount = $amount;
 		$this->from = $this->responseFromCurrency = $from;
 		$this->to = $this->responseToCurrency = $to;
@@ -51,10 +53,10 @@ class e4QuerySend
 	protected function queryGoogle()
 	{
 		$this->requestService = 'Google Finance';
-		$response = $this->sendHTTPRequest('http://www.google.com/finance/converter', array(
+		$response = $this->app->sendHTTPRequest('http://www.google.com/finance/converter?'.http_build_query(array(
 			'a' => $this->amount,
 			'from' => $this->from,
-			'to' => $this->to));
+			'to' => $this->to)), null, 300);
 
 		if ($response &&
 			preg_match('/<div\s+id=["|\']?currency_converter_result["|\']?[^>]?>(.*)/', $response, $data) &&
@@ -72,10 +74,10 @@ class e4QuerySend
 	protected function queryBitcoin()
 	{
 		$this->requestService = 'BTCrate.com';
-		$response = $this->sendHTTPRequest('http://btcrate.com/convert', array(
+		$response = $this->app->sendHTTPRequest('http://btcrate.com/convert?'.http_build_query(array(
 			'amount' => $this->amount,
 			'from' => $this->from,
-			'to' => $this->to));
+			'to' => $this->to)), null, 300);
 
 		if ($response && $response = @json_decode($response, true))
 		{
@@ -84,21 +86,6 @@ class e4QuerySend
 		}
 
 		return $this->valid = false;
-	}
-	protected function sendHTTPRequest($url, $query=array())
-	{
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $url.'?'.http_build_query($query));
-		curl_setopt($ch, CURLOPT_HEADER, 0);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_ENCODING, 'UTF-8');
-		$response = curl_exec($ch);
-
-		if (curl_getinfo($ch, CURLINFO_HTTP_CODE) != 200 || !$response)
-			$response = false;
-
-		curl_close($ch);
-		return $response;
 	}
 }
 

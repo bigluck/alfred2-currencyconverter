@@ -1,8 +1,9 @@
 {
 	"app": {
 		"name": "Currency Converter",
-		"version": "0.8",
-		"namespace": "currencyconverter"
+		"id": "net.exit4web.currencyconverter",
+		"version": "0.9",
+		"cacheTTL": 3600
 	},
 	"defaults": {
 		"from": "EUR",
