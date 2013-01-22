@@ -100,7 +100,7 @@ class e4WorkflowApp
 		// Reading and executing input query
 		if ($argv[1] != 'default' && count($this->appCommands) > 0)
 			foreach ($this->appCommands AS $key => $config)
-				if (!$query || preg_match('/^'.preg_quote(substr($query, 0, strlen($key))).'/i', $key))
+				if (!$query || preg_match('/^'.preg_quote(substr($query, 0, strlen($key)), '/').'/i', $key))
 					$objects[] = $this->loadCommander($key, $query);
 
 

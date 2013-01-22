@@ -2,7 +2,7 @@
 	"app": {
 		"name": "Currency Converter",
 		"id": "net.exit4web.currencyconverter",
-		"version": "0.9",
+		"version": "0.91",
 		"cacheTTL": 3600
 	},
 	"defaults": {
