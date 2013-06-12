@@ -46,7 +46,7 @@ class e4WorkflowDoSet extends e4WorkflowCommands
 		elseif ($key == 'to' && $value == $currentFrom)
 			$this->app->setDefault('from', $currentTo);
 
-		return 'New defaults: form '.$this->app->getDefault('from').' to '.$this->app->getDefault('to');
+		return 'New defaults: from '.$this->app->getDefault('from').' to '.$this->app->getDefault('to');
 	}
 }
 
