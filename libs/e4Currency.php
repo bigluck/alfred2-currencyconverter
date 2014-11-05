@@ -155,12 +155,12 @@ class e4Currency
 	static function isValidSymbol($symbol)
 	{
 		$symbol = mb_strtolower(trim($symbol), 'UTF-8');
-		return self::$validSymbols[$symbol] ?: false;
+		return isset(self::$validSymbols[$symbol]) ? self::$validSymbols[$symbol] : false;
 	}
 	static function isValidCurrency($currency)
 	{
 		$currency = mb_strtoupper(trim($currency), 'UTF-8');
-		return self::$validCurrency[$currency] ? $currency : false;
+		return isset(self::$validCurrency[$currency]) ? $currency : false;
 	}
 	static function autoCompose($currency, $all=false)
 	{
