@@ -119,7 +119,8 @@ class e4QueryParser
 				$this->parsed['reSuggest'] = $suggestString;
 
 				// Parse from currency
-				$this->from->setInput($this->parsed['from']);
+				if (isset($this->parsed['from']))
+					$this->from->setInput($this->parsed['from']);
 				if (!$this->from->parse())
 					$this->from = $this->defaultFrom;
 
