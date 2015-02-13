@@ -62,6 +62,19 @@ class e4WorkflowDoConvert extends e4WorkflowCommands
 						'subtitle' => 'Processed by '.$tmpResponse->getService(),
 						'icon' => 'icon.png',
 						'valid' => 'yes');
+					$tmpResponseReverse = new e4QuerySend($this->app, $tmpAmount, $tmpTo[0], $tmpFrom[0]);					$tmpResponseReverse->sendRequest();
+					$out[] = array(
+						'uid' => 'none',
+						'arg' => $tmpResponseReverse->getToAmount(),
+						'title' => implode(' ', array(
+							$tmpResponseReverse->getFromAmount(),
+							$tmpResponseReverse->getFromCurrency(),
+							'=',
+							$tmpResponseReverse->getToAmount(),
+							$tmpResponseReverse->getToCurrency())),
+						'subtitle' => 'Processed by '.$tmpResponseReverse->getService(),
+						'icon' => 'icon.png',
+						'valid' => 'yes');
 				}
 			}
 		}
