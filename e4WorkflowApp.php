@@ -82,8 +82,9 @@ class e4WorkflowApp
 	}
 	public function addCommand($key, $configs)
 	{
-		$configs['icon'] = $configs['icon'] ?: 'icon.png';
-		$configs['valid'] = $configs['valid'] ? 'yes' : 'no';
+		$configs['icon'] = array_key_exists('icon', $configs) ? $configs['icon'] : 'icon.png';
+		$configs['valid'] = array_key_exists('valid', $configs) ? 'yes' : 'no';
+		$configs['default'] = array_key_exists('default', $configs) ? $configs['default'] : false;
 		if ($configs['default'] === true)
 			$this->appDefaultCommand = $configs['id'];
 		$this->appCommands[$key] = $configs;
@@ -91,14 +92,13 @@ class e4WorkflowApp
 
 	public function run($argv)
 	{
-		array_shift($argv);
-		$query = trim($argv[0]) ?: '';
+		$query = trim($argv[1]) ?: '';
 
 		$objects = array();
 		$out = array();
 
 		// Reading and executing input query
-		if ($argv[1] != 'default' && count($this->appCommands) > 0)
+		if (array_key_exists(2, $argv) != 'default' && count($this->appCommands) > 0)
 			foreach ($this->appCommands AS $key => $config)
 				if (!$query || preg_match('/^'.preg_quote(substr($query, 0, strlen($key)), '/').'/i', $key))
 					$objects[] = $this->loadCommander($key, $query);
@@ -115,6 +115,9 @@ class e4WorkflowApp
 
 
 		// Transform output array to XML
+		if (!is_array($out))
+			return $out;
+		
 		$xmlObject = new SimpleXMLElement("<items></items>");
 		$tmpTypes = array(
 			'uid' => 'addAttribute',
@@ -125,7 +128,7 @@ class e4WorkflowApp
 		{
 			$objItem = $xmlObject->addChild('item');
 			foreach ($rows AS $key => $value)
-				$objItem->{ $tmpTypes[$key] ?: 'addChild' }($key, $value);
+				$objItem->{ array_key_exists($key, $tmpTypes) ? $tmpTypes[$key] : 'addChild' }($key, $value);
 		}
 		return $xmlObject->asXML();
 	}
@@ -154,9 +157,9 @@ class e4WorkflowApp
 	}
 	public function importConfig()
 	{
-		if ($this->cacheLoaded)
-			return false;
-		$this->cacheLoaded = true;
+		// if (property_exists($this, 'cacheLoaded')
+		// 	return false;
+		// $this->cacheLoaded = true;
 		$content = @file_get_contents($this->configPath.'config.json');
 		$this->defaults = @json_decode($content, true) ?: array();
 		$this->defaultsHash = md5($content) ?: '';
@@ -240,7 +243,7 @@ abstract class e4WorkflowCommands
 	}
 	public function  getCommandSuggestValue($row)
 	{
-		return $this->inConfig[$row] ?: null;
+		return array_key_exists($row, $this->inConfig) ? $this->inConfig[$row] : null;
 	}
 
 	public function run($inQuery, $args)
