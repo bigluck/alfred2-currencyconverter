@@ -155,12 +155,12 @@ class e4Currency
 	static function isValidSymbol($symbol)
 	{
 		$symbol = mb_strtolower(trim($symbol), 'UTF-8');
-		return self::$validSymbols[$symbol] ?: false;
+		return array_key_exists($symbol, self::$validSymbols) ? self::$validSymbols[$symbol] : false;
 	}
 	static function isValidCurrency($currency)
 	{
 		$currency = mb_strtoupper(trim($currency), 'UTF-8');
-		return self::$validCurrency[$currency] ? $currency : false;
+		return array_key_exists($currency, self::$validCurrency) ? $currency : false;
 	}
 	static function autoCompose($currency, $all=false)
 	{
@@ -175,7 +175,7 @@ class e4Currency
 	}
 	static function currencyName($currency)
 	{
-		return self::$validCurrency[$currency] ?: 'Unknown';
+		return array_key_exists($currency, self::$validCurrency) ? self::$validCurrency[$currency] : 'Unknown';
 	}
 }
 

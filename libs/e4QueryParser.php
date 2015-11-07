@@ -119,14 +119,16 @@ class e4QueryParser
 				$this->parsed['reSuggest'] = $suggestString;
 
 				// Parse from currency
-				$this->from->setInput($this->parsed['from']);
+				$from_local = array_key_exists('from', $this->parsed) ? $this->parsed['from'] : $this->getFrom()[0];
+				$this->from->setInput($from_local);
 				if (!$this->from->parse())
 					$this->from = $this->defaultFrom;
 
 				// Parse to currency
-				$this->to->setInput($this->parsed['to']);
+				$to_local = array_key_exists('to', $this->parsed) ? $this->parsed['to'] : $this->getTo()[0];
+				$this->to->setInput($to_local);
 				if (!$this->to->parse())
-					$this->to = $this->from->isEqualOf($this->defaultFrom) ? $this->defaultTo : $this->defaultFrom;
+                    $this->to = $this->from->isEqualOf($this->defaultTo) ? $this->defaultFrom : $this->defaultTo;
 
 				// Parse amount
 				$this->amount = preg_replace('/(\d+)\.(?!\d+$)/', '$1', str_replace(',', '.', $this->parsed['amount'] ?: '1'))*1;
