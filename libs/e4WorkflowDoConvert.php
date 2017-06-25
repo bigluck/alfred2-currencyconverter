@@ -54,10 +54,10 @@ class e4WorkflowDoConvert extends e4WorkflowCommands
 						'uid' => 'none',
 						'arg' => $tmpResponse->getToAmount(),
 						'title' => implode(' ', array(
-							$tmpResponse->getFromAmount(),
+							number_format($tmpResponse->getFromAmount(), 2),
 							$tmpResponse->getFromCurrency(),
 							'=',
-							$tmpResponse->getToAmount(),
+							number_format($tmpResponse->getToAmount(), 2),
 							$tmpResponse->getToCurrency())),
 						'subtitle' => 'Processed by '.$tmpResponse->getService(),
 						'icon' => 'icon.png',
