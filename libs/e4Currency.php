@@ -56,7 +56,7 @@ class e4Currency
 		'zł' => 'PLN',	'lei' => 'RON',	'руб' => 'RUB',	'Дин' => 'RSD',	'Дин.' => 'RSD',
 		's' => 'SOS',	'r' => 'ZAR',	'nt$' => 'TWD',	'฿' => 'THB',	'tt$' => 'TTD',
 		'₤' => 'TRL',	'₴' => 'UAH',	'$u' => 'UYU',	'bs' => 'VEF',	'₫' => 'VND',
-		'z$' => 'ZWD');
+		'z$' => 'ZWD', '₪' => 'ILS', 'nis' => 'ILS');
 	static $validCurrency = array(
 		'USD' => 'US Dollar',
 		'EUR' => 'Euro',
