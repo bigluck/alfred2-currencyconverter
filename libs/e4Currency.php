@@ -47,7 +47,7 @@ class e4Currency
 
 	static $validSymbols = array(
 		'£' => 'GBP',	'$' => 'USD',	'€' => 'EUR',	'₴' => 'UAH',	'$u' => 'UYU',
-		'lek' => 'ALL',	'؋' => 'AFN',	'ƒ' => 'ANG',	'ман' => 'AZN',	'p.' => 'BYR',
+		'lek' => 'ALL',	'؋' => 'AFN',	'ƒ' => 'ANG',	'ман' => 'AZN',	'бел.руб' => 'BYN',
 		'bz$' => 'BZD',	'$b' => 'BOB',	'km' => 'BAM',	'P' => 'BWP',	'лв' => 'BGN',
 		'r$' => 'BRL',	'៛' => 'KHR',	'¥' => 'JPY',	'₩' => 'KRW',	'₭' => 'LAK',
 		'ls' => 'LVL',	'lt' => 'LTL',	'ден' => 'MKD',	'rm' => 'MYR',	'₨' => 'NPR',
@@ -79,6 +79,8 @@ class e4Currency
 		'BOB' => 'Bolivian Boliviano',
 		'BRL' => 'Brazilian Real',
 		'BWP' => 'Botswanan Pula',
+		'BYN' => 'Belarusian Ruble',
+		'BYR' => 'Belarusian Ruble (2000-2016)',
 		'CLP' => 'Chilean Peso',
 		'CNY' => 'Chinese Yuan',
 		'COP' => 'Colombian Peso',
