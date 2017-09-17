@@ -8,6 +8,8 @@ function __autoload($className)
 	include ROOT.'libs/'.$className.'.php';
 }
 
+error_reporting(E_ERROR);
+ini_set('display_errors', '0');
 
 // Loading application config
 $app = new e4WorkflowApp(ROOT);
