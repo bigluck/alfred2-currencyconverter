@@ -155,7 +155,7 @@ class e4Currency
 	static function isValidSymbol($symbol)
 	{
 		$symbol = mb_strtolower(trim($symbol), 'UTF-8');
-		return self::$validSymbols[$symbol] ?: false;
+		return @self::$validSymbols[$symbol] ?: false;
 	}
 	static function isValidCurrency($currency)
 	{

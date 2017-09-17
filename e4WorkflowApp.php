@@ -33,6 +33,8 @@ class e4WorkflowApp
 	protected $configLoaded = false;
 	public $configPath = false;
 
+	public $cacheLoaded = false;
+
 	public function __construct($root=false, $path='appConfig.json')
 	{
 		$this->root = $root ?: dirname($_SERVER['SCRIPT_NAME']).'/';
@@ -55,7 +57,7 @@ class e4WorkflowApp
 		// Loading app commands
 		if (count($e4Config['commands']) > 0)
 			foreach ($e4Config['commands'] AS $info)
-				$this->addCommand($info['id'], $info);
+				@$this->addCommand($info['id'], $info);
 
 		// Callback functions on application exit
 		register_shutdown_function(array($this, 'exportConfig'));
@@ -125,7 +127,7 @@ class e4WorkflowApp
 		{
 			$objItem = $xmlObject->addChild('item');
 			foreach ($rows AS $key => $value)
-				$objItem->{ $tmpTypes[$key] ?: 'addChild' }($key, $value);
+				$objItem->{ @$tmpTypes[$key] ?: 'addChild' }($key, $value);
 		}
 		return $xmlObject->asXML();
 	}
