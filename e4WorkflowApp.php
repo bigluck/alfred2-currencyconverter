@@ -8,6 +8,8 @@ function __autoload($className)
 	include ROOT.'libs/'.$className.'.php';
 }
 
+error_reporting(E_ERROR);
+ini_set('display_errors', '0');
 
 // Loading application config
 $app = new e4WorkflowApp(ROOT);
@@ -33,6 +35,8 @@ class e4WorkflowApp
 	protected $configLoaded = false;
 	public $configPath = false;
 
+	public $cacheLoaded = false;
+
 	public function __construct($root=false, $path='appConfig.json')
 	{
 		$this->root = $root ?: dirname($_SERVER['SCRIPT_NAME']).'/';
@@ -55,7 +59,7 @@ class e4WorkflowApp
 		// Loading app commands
 		if (count($e4Config['commands']) > 0)
 			foreach ($e4Config['commands'] AS $info)
-				$this->addCommand($info['id'], $info);
+				@$this->addCommand($info['id'], $info);
 
 		// Callback functions on application exit
 		register_shutdown_function(array($this, 'exportConfig'));
@@ -82,9 +86,9 @@ class e4WorkflowApp
 	}
 	public function addCommand($key, $configs)
 	{
-		$configs['icon'] = $configs['icon'] ?: 'icon.png';
-		$configs['valid'] = $configs['valid'] ? 'yes' : 'no';
-		if ($configs['default'] === true)
+        $configs['icon'] = isset($configs['icon']) ? $configs['icon'] : 'icon.png';
+        $configs['valid'] = (isset($configs['valid']) && $configs['valid']) ? 'yes' : 'no';
+        if (isset($configs['default']) && $configs['default'] === true)
 			$this->appDefaultCommand = $configs['id'];
 		$this->appCommands[$key] = $configs;
 	}
@@ -92,13 +96,16 @@ class e4WorkflowApp
 	public function run($argv)
 	{
 		array_shift($argv);
-		$query = trim($argv[0]) ?: '';
+        if (!empty($argv))
+            $query = trim($argv[0]) ?: '';
+        else
+            $query = '';
 
 		$objects = array();
 		$out = array();
 
 		// Reading and executing input query
-		if ($argv[1] != 'default' && count($this->appCommands) > 0)
+        if (isset($argv[1]) && ($argv[1] != 'default' && count($this->appCommands) > 0))
 			foreach ($this->appCommands AS $key => $config)
 				if (!$query || preg_match('/^'.preg_quote(substr($query, 0, strlen($key)), '/').'/i', $key))
 					$objects[] = $this->loadCommander($key, $query);
@@ -125,7 +132,7 @@ class e4WorkflowApp
 		{
 			$objItem = $xmlObject->addChild('item');
 			foreach ($rows AS $key => $value)
-				$objItem->{ $tmpTypes[$key] ?: 'addChild' }($key, $value);
+				$objItem->{ @$tmpTypes[$key] ?: 'addChild' }($key, $value);
 		}
 		return $xmlObject->asXML();
 	}
@@ -154,7 +161,7 @@ class e4WorkflowApp
 	}
 	public function importConfig()
 	{
-		if ($this->cacheLoaded)
+        if (isset($this->cacheLoaded) && $this->cacheLoaded)
 			return false;
 		$this->cacheLoaded = true;
 		$content = @file_get_contents($this->configPath.'config.json');

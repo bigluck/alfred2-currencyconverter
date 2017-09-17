@@ -47,7 +47,7 @@ class e4Currency
 
 	static $validSymbols = array(
 		'£' => 'GBP',	'$' => 'USD',	'€' => 'EUR',	'₴' => 'UAH',	'$u' => 'UYU',
-		'lek' => 'ALL',	'؋' => 'AFN',	'ƒ' => 'ANG',	'ман' => 'AZN',	'p.' => 'BYR',
+		'lek' => 'ALL',	'؋' => 'AFN',	'ƒ' => 'ANG',	'ман' => 'AZN',	'бел.руб' => 'BYN',
 		'bz$' => 'BZD',	'$b' => 'BOB',	'km' => 'BAM',	'P' => 'BWP',	'лв' => 'BGN',
 		'r$' => 'BRL',	'៛' => 'KHR',	'¥' => 'JPY',	'₩' => 'KRW',	'₭' => 'LAK',
 		'ls' => 'LVL',	'lt' => 'LTL',	'ден' => 'MKD',	'rm' => 'MYR',	'₨' => 'NPR',
@@ -56,7 +56,7 @@ class e4Currency
 		'zł' => 'PLN',	'lei' => 'RON',	'руб' => 'RUB',	'Дин' => 'RSD',	'Дин.' => 'RSD',
 		's' => 'SOS',	'r' => 'ZAR',	'nt$' => 'TWD',	'฿' => 'THB',	'tt$' => 'TTD',
 		'₤' => 'TRL',	'₴' => 'UAH',	'$u' => 'UYU',	'bs' => 'VEF',	'₫' => 'VND',
-		'z$' => 'ZWD');
+		'z$' => 'ZWD', '₪' => 'ILS', 'nis' => 'ILS');
 	static $validCurrency = array(
 		'USD' => 'US Dollar',
 		'EUR' => 'Euro',
@@ -79,6 +79,8 @@ class e4Currency
 		'BOB' => 'Bolivian Boliviano',
 		'BRL' => 'Brazilian Real',
 		'BWP' => 'Botswanan Pula',
+		'BYN' => 'Belarusian Ruble',
+		'BYR' => 'Belarusian Ruble (2000-2016)',
 		'CLP' => 'Chilean Peso',
 		'CNY' => 'Chinese Yuan',
 		'COP' => 'Colombian Peso',
@@ -155,12 +157,12 @@ class e4Currency
 	static function isValidSymbol($symbol)
 	{
 		$symbol = mb_strtolower(trim($symbol), 'UTF-8');
-		return self::$validSymbols[$symbol] ?: false;
+		return @self::$validSymbols[$symbol] ?: false;
 	}
 	static function isValidCurrency($currency)
 	{
 		$currency = mb_strtoupper(trim($currency), 'UTF-8');
-		return self::$validCurrency[$currency] ? $currency : false;
+        return isset(self::$validCurrency[$currency]) ? $currency : false;
 	}
 	static function autoCompose($currency, $all=false)
 	{
