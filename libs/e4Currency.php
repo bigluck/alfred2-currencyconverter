@@ -160,7 +160,7 @@ class e4Currency
 	static function isValidCurrency($currency)
 	{
 		$currency = mb_strtoupper(trim($currency), 'UTF-8');
-		return isset(self::$validCurrency[$currency]) ? $currency : false;
+        return isset(self::$validCurrency[$currency]) ? $currency : false;
 	}
 	static function autoCompose($currency, $all=false)
 	{
