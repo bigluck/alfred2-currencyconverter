@@ -48,24 +48,24 @@ class e4QuerySend
 	{
 		if ($this->from == 'BTC' || $this->to == 'BTC')
 			return $this->queryBitcoin();
-		return $this->queryGoogle();
+		return $this->queryDefault();
 	}
-	protected function queryGoogle()
+	protected function queryDefault()
 	{
-		$this->requestService = 'Google Finance';
-		$response = $this->app->sendHTTPRequest('http://www.google.com/finance/converter?'.http_build_query(array(
-			'a' => $this->amount,
-			'from' => $this->from,
-			'to' => $this->to)), null, 300);
+		$this->requestService = 'Currency Converter API';
+		$response = $this->app->sendHTTPRequest('https://free.currencyconverterapi.com/api/v5/convert?q='.$this->from.'_'.$this->to, null, 300);
 
-		if ($response &&
-			preg_match('/<div\s+id=["|\']?currency_converter_result["|\']?[^>]?>(.*)/', $response, $data) &&
-			preg_match('/^\s*(?<from>(?<fromAmount>[\d\.\,]+)\s*(?<fromCurrency>\w{3}))\s*=\s*(?<to>(?<toAmount>[\d\.\,]+)\s*(?<toCurrency>\w{3}))\s*$/', strip_tags($data[1]), $data))
+		if ($response)
 		{
-			$this->responseFromAmount = $data['fromAmount']*1;
-			$this->responseFromCurrency = $data['fromCurrency'];
-			$this->responseToAmount = $data['toAmount']*1;
-			$this->responseToCurrency = $data['toCurrency'];
+			$data = json_decode($response, true);
+			$results = $data["results"];
+			$conversionResults = $results[$this->from . "_" . $this->to];
+			$toAmount = $conversionResults["val"] * $this->amount;
+
+			$this->responseFromAmount = $this->amount;
+			$this->responseFromCurrency = $this->from;
+			$this->responseToAmount = $toAmount;
+			$this->responseToCurrency = $this->to;
 			return $this->valid = true;
 		}
 
